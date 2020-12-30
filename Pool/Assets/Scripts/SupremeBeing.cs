@@ -1,0 +1,12 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SupremeBeing : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        PoolManager.x.InitializePools();
+    }
+}
