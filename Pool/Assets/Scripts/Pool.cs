@@ -17,7 +17,6 @@ public class Pool
         i_initialSize = size;
         p_objects = new HashSet<IPoolable>();
         i_aliveObjects = size;
-
     }
 
     public void InitializePool()
@@ -41,9 +40,9 @@ public class Pool
                 return objectToSpawn;
             }
         }
-
         GameObject newGo = AddNewObject();
         newGo.transform.parent = null;
+        newGo.SetActive(true);
         return newGo;
     }
 
@@ -67,12 +66,11 @@ public class Pool
 
         GameObject newGo = GameObject.Instantiate(go_poolType);
         newGo.name = newGo.name.Replace("(Clone)", "");
-        newGo.transform.parent = PoolManager.x.transform;
         IPoolable poolRef = newGo.GetComponent<IPoolable>();
         if (poolRef != null)
             p_objects.Add(poolRef);
 
-        newGo.SetActive(false);
+        poolRef.Die();
         return newGo;
     }
 

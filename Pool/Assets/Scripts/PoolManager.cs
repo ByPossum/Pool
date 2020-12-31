@@ -21,8 +21,12 @@ public class PoolManager : MonoBehaviour
     public GameObject SpawnObject(GameObject objectToSpawn)
     {
         for (int i = 0; i < pools.Length; i++)
+        {
             if (pools[i].GetPoolType().name == objectToSpawn.name)
+            {
                 return pools[i].SpawnObject();
+            }
+        }
         CreateNewPool(objectToSpawn);
         return SpawnObject(objectToSpawn);
     }
@@ -32,7 +36,9 @@ public class PoolManager : MonoBehaviour
         for(int i = 0; i < pools.Length; i++)
         {
             if (pools[i].GetPoolType().name == objectToPool.name)
+            {
                 pools[i].ReturnToPool(objectToPool);
+            }
         }
     }
 
@@ -40,14 +46,23 @@ public class PoolManager : MonoBehaviour
     {
         x = this;
         DontDestroyOnLoad(gameObject);
+        InitializePools();
     }
 
     private void CreateNewPool(GameObject type)
     {
+        if(pools.Length < 1)
+        {
+            pools = new Pool[1];
+            pools[0] = new Pool(5, type);
+            pools[0].InitializePool();
+            return;
+        }
         Pool[] temp = new Pool[pools.Length+1];
         for (int i = 0; i < pools.Length; i++)
             temp[i] = pools[i];
         temp[pools.Length + 1] = new Pool(5, type);
         pools = temp;
+        pools[pools.Length].InitializePool();
     }
 }
